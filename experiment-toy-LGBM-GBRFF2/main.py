@@ -71,23 +71,22 @@ def make_board(n):
     return X, y
 
 
-def make_circles(n):
-    n_circles = 4
-    noise = 0.07
+def make_circles(n_samples, n_circles=4, noise=0.07, factor=1):
     mult = 1
     label = -1
     Xx = []
     Xy = []
     y = []
-    for _ in range(n_circles):
-        n_circle = n // n_circles
-        linspace = np.linspace(0, 2 * np.pi, n_circle, endpoint=False)
+    for i in range(n_circles):
+        n_samples_circle = n_samples // n_circles
+        linspace = np.linspace(0, 2 * np.pi, n_samples_circle, endpoint=False)
         Xx.extend((np.cos(linspace) + np.random.normal(
-                                           scale=noise, size=n_circle)) * mult)
+                                   scale=noise, size=n_samples_circle)) * mult)
         Xy.extend((np.sin(linspace) + np.random.normal(
-                                           scale=noise, size=n_circle)) * mult)
-        for _ in range(n_circle):
+                                   scale=noise, size=n_samples_circle)) * mult)
+        for j in range(n_samples_circle):
             y.append(label)
+        mult += factor
         label *= -1
     X = np.array([Xx, Xy]).T
     y = np.array(y)
